@@ -9,7 +9,7 @@ const initialState: MemoryCardsState = {
 };
 
 const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
-  (set) => ({
+  (set, get) => ({
     ...initialState,
     getCards: async () => {
       const cards = await getCards();
@@ -25,6 +25,30 @@ const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
       set((state: MemoryCardsState) => ({
         cards: state.cards.concat(state.cards),
       })),
+    flipCard: (i: number) => {
+      const cards = get().cards;
+      const isFlipped = cards[i].flipped;
+
+      const indexOtherFlipped = cards.findIndex((card) => card.flipped);
+
+      set((state: MemoryCardsState) => ({
+        cards: state.cards.map((card, j) =>
+          i === j ? { ...card, flipped: !isFlipped } : card
+        ),
+      }));
+
+      if (indexOtherFlipped !== -1) {
+        if (cards[i].id === cards[indexOtherFlipped].id) {
+          const disableCard = get().disableCard;
+          disableCard(i);
+          disableCard(indexOtherFlipped);
+        }
+      }
+    },
+    disableCard: (i: number) => {
+      const cards = get().cards;
+      cards[i].disabled = true;
+    },
     resetCards: () => set(initialState),
   })
 );

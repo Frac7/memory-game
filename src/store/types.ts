@@ -1,6 +1,8 @@
 export interface Card {
   id: number;
   content: string;
+  flipped?: boolean;
+  disabled?: boolean;
 }
 
 export interface MemoryGameState {
@@ -23,6 +25,8 @@ export interface MemoryCardsStore extends MemoryCardsState {
   shuffleCards: () => void;
   duplicateCards: () => void;
   resetCards: () => void;
+  flipCard: (i: number) => void;
+  disableCard: (i: number) => void;
 }
 
 export interface GameTimerState {
