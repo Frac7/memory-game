@@ -3,11 +3,12 @@ import { StoreApi, UseBoundStore, create } from "zustand";
 import { GameState, GameStore } from "@/store/types";
 import useCardsStore from "./useCardsStore";
 import { DECREASE_SCORE_AMOUNT, INCREASE_SCORE_AMOUNT } from "./constants";
-import useTimerStore, { startTimerSelector } from "./useTimerStore";
+import useTimerStore from "./useTimerStore";
 
 const initialState: GameState = {
   score: 0,
   flips: 0,
+  completed: false,
 };
 
 const useGameStore: UseBoundStore<StoreApi<GameStore>> = create((set, get) => ({
@@ -48,10 +49,16 @@ const useGameStore: UseBoundStore<StoreApi<GameStore>> = create((set, get) => ({
       const enabledCards = getEnabledCards();
       if (enabledCards.length === 0) {
         stopTimer();
+        set({ completed: true });
       }
     }, 1000);
   },
   resetGame: () => set(initialState),
+  restartGame: () => {
+    useTimerStore.getState().resetTimer();
+    useCardsStore.getState().resetCards();
+    get().resetGame();
+  },
 }));
 
 export default useGameStore;
@@ -61,4 +68,6 @@ export const gameControllerSelector = (state: GameStore) => ({
   flips: state.flips,
   handleFlip: state.handleFlip,
   incrementFlips: state.incrementFlips,
+  restartGame: state.restartGame
 });
+export const isCompletedSelector = (state: GameState) => state.completed;

@@ -25,6 +25,14 @@ const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
       set((state: CardsState) => ({
         cards: state.cards.concat(state.cards),
       })),
+    initCards: () => {
+      get()
+        .getCards()
+        .then(() => {
+          get().duplicateCards();
+          get().shuffleCards();
+        });
+    },
     flipCard: (i: number) => {
       set((state: CardsState) => ({
         cards: state.cards.map((card, j) =>
@@ -45,9 +53,12 @@ const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
         .filter((card) => !card.disabled && card.flipped);
     },
     getEnabledCards: () => {
-      return get().cards.filter(card => !card.disabled)
+      return get().cards.filter((card) => !card.disabled);
     },
-    resetCards: () => set(initialState),
+    resetCards: () => {
+      set(initialState);
+      get().initCards();
+    },
   })
 );
 

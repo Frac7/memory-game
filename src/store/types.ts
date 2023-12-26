@@ -8,6 +8,7 @@ export interface Card {
 export interface GameState {
   score: number;
   flips: number;
+  completed: boolean;
 }
 
 export interface GameStore extends GameState {
@@ -15,6 +16,7 @@ export interface GameStore extends GameState {
   incrementFlips: () => void;
   handleFlip: (i: number) => void;
   resetGame: () => void;
+  restartGame: () => void;
 }
 
 export interface CardsState {
@@ -23,6 +25,7 @@ export interface CardsState {
 
 export interface CardsStore extends CardsState {
   getCards: () => Promise<void>;
+  initCards: () => Promise<void>;
   shuffleCards: () => void;
   duplicateCards: () => void;
   resetCards: () => void;

@@ -5,21 +5,18 @@ import {
   CardHeader,
   Flex,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import { useShallow } from "zustand/react/shallow";
 
 import Card from "@/components/Card";
-import useGameStore, {
-  gameControllerSelector,
-} from "@/store/useGameStore";
-import useCardsStore, {
-  cardsSelector,
-} from "@/store/useCardsStore";
+import useGameStore, { gameControllerSelector } from "@/store/useGameStore";
+import useCardsStore, { cardsSelector } from "@/store/useCardsStore";
 
 import Timer from "../Timer";
 
 const Board = () => {
-  const { score, flips, handleFlip } = useGameStore(
+  const { score, flips, handleFlip, restartGame } = useGameStore(
     useShallow(gameControllerSelector)
   );
   const cards = useCardsStore(useShallow(cardsSelector));
@@ -31,6 +28,7 @@ const Board = () => {
           <Text>Score: {score}</Text>
           <Text>Flips: {flips}</Text>
           <Timer />
+          <Button onClick={restartGame}>Restart</Button>
         </Flex>
       </CardHeader>
       <CardBody>
