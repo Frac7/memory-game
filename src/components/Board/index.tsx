@@ -12,11 +12,15 @@ import Card from "@/components/Card";
 import useMemoryGameStore, {
   gameControllerSelector,
 } from "@/store/useMemoryGameStore";
+import useMemoryCardsStore, {
+  cardsSelector,
+} from "@/store/useMemoryCardsStore";
 
 const Board = () => {
   const { score, timer, flips } = useMemoryGameStore(
     useShallow(gameControllerSelector)
   );
+  const cards = useMemoryCardsStore(useShallow(cardsSelector));
 
   return (
     <ChakraCard variant="filled">
@@ -33,16 +37,9 @@ const Board = () => {
           templateColumns="repeat(5, 1fr)"
           templateRows="repeat(2, 1fr)"
         >
-          <Card content="Content 1" />
-          <Card content="Content 2" />
-          <Card content="Content 3" />
-          <Card content="Content 4" />
-          <Card content="Content 5" />
-          <Card content="Content 6" />
-          <Card content="Content 7" />
-          <Card content="Content 8" />
-          <Card content="Content 9" />
-          <Card content="Content 10" />
+          {cards.map(({ id, content }) => (
+            <Card key={id} id={id} content={content} />
+          ))}
         </SimpleGrid>
       </CardBody>
     </ChakraCard>

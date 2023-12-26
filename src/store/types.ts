@@ -7,7 +7,6 @@ export interface MemoryGameState {
   score: number;
   flips: number;
   timer: number;
-  cards: Array<Card>;
 }
 
 export interface MemoryGameStore extends MemoryGameState {
@@ -15,4 +14,14 @@ export interface MemoryGameStore extends MemoryGameState {
   incrementTimer: () => void;
   incrementFlips: () => void;
   resetGame: () => void;
+}
+
+export interface MemoryCardsState {
+  cards: Array<Card>;
+}
+
+export interface MemoryCardsStore extends MemoryCardsState {
+  getCards: () => void;
+  shuffleCards: () => void;
+  duplicateCards: () => void;
 }
