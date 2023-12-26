@@ -29,6 +29,7 @@ export interface CardsStore extends CardsState {
   flipCard: (i: number) => void;
   disableCard: (i: number) => void;
   getFlippedCardsWithIndex: () => (Card & { index: number })[];
+  getEnabledCards: () => Card[];
 }
 
 export interface TimerState {

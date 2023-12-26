@@ -39,7 +39,6 @@ const useTimerStore: UseBoundStore<StoreApi<TimerStore>> = create(
 
 export default useTimerStore;
 
-export const startTimerSelector = (state: TimerStore) => state.startTimer;
 export const timerSelector = (state: TimerStore) => ({
   timer: state.timer,
   stopTimer: state.stopTimer,

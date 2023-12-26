@@ -44,6 +44,9 @@ const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
         .cards.map((card, i) => ({ ...card, index: i }))
         .filter((card) => !card.disabled && card.flipped);
     },
+    getEnabledCards: () => {
+      return get().cards.filter(card => !card.disabled)
+    },
     resetCards: () => set(initialState),
   })
 );
