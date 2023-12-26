@@ -11,6 +11,12 @@ const initialState: GameState = {
   completed: false,
 };
 
+useTimerStore.subscribe((state) => {
+  if (state.timer === 0) {
+    useGameStore.getState().completeGame();
+  }
+});
+
 const useGameStore: UseBoundStore<StoreApi<GameStore>> = create((set, get) => ({
   ...initialState,
   incrementScore: (amount: number) =>
@@ -24,7 +30,7 @@ const useGameStore: UseBoundStore<StoreApi<GameStore>> = create((set, get) => ({
       useCardsStore.getState();
     flipCard(i);
 
-    const { incrementScore, incrementFlips } = get();
+    const { incrementScore, incrementFlips, completeGame } = get();
     incrementFlips();
 
     const flippedCards = getFlippedCardsWithIndex();
@@ -49,10 +55,11 @@ const useGameStore: UseBoundStore<StoreApi<GameStore>> = create((set, get) => ({
       const enabledCards = getEnabledCards();
       if (enabledCards.length === 0) {
         stopTimer();
-        set({ completed: true });
+        completeGame();
       }
     }, 1000);
   },
+  completeGame: () => set({ completed: true }),
   resetGame: () => set(initialState),
   restartGame: () => {
     useTimerStore.getState().resetTimer();
@@ -68,6 +75,6 @@ export const gameControllerSelector = (state: GameStore) => ({
   flips: state.flips,
   handleFlip: state.handleFlip,
   incrementFlips: state.incrementFlips,
-  restartGame: state.restartGame
+  restartGame: state.restartGame,
 });
 export const isCompletedSelector = (state: GameState) => state.completed;

@@ -4,7 +4,7 @@ import { TimerState, TimerStore } from "@/store/types";
 import "@/utils/shuffle";
 
 const initialState: TimerState = {
-  timer: 0,
+  timer: 60,
   isActive: false,
 };
 
@@ -17,7 +17,10 @@ const useTimerStore: UseBoundStore<StoreApi<TimerStore>> = create(
         set({
           isActive: true,
           interval: setInterval(() => {
-            set({ timer: get().timer + 1 });
+            const timer = get().timer;
+            if (timer > 0) {
+              set({ timer: timer - 1 });
+            }
           }, 1000),
         });
       }

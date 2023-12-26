@@ -17,6 +17,7 @@ export interface GameStore extends GameState {
   handleFlip: (i: number) => void;
   resetGame: () => void;
   restartGame: () => void;
+  completeGame: () => void;
 }
 
 export interface CardsState {

@@ -32,7 +32,7 @@ const Modal: FC<ModalProps> = ({ isOpen }) => {
         <Flex justifyContent="space-around">
           <Text>Score: {score}</Text>
           <Text>Flips: {flips}</Text>
-          <Text>Time: {timer}</Text>
+          <Text>Time: {60 - timer}</Text>
         </Flex>
         <ModalFooter>
           <Button onClick={restartGame}>Restart</Button>
