@@ -27,6 +27,7 @@ export interface MemoryCardsStore extends MemoryCardsState {
   resetCards: () => void;
   flipCard: (i: number) => void;
   disableCard: (i: number) => void;
+  cardClicked: (i: number) => void;
 }
 
 export interface GameTimerState {

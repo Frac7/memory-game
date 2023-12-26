@@ -12,13 +12,13 @@ export default function useGameController() {
   const { score, flips, incrementFlips } = useMemoryGameStore(
     useShallow(gameControllerSelector)
   );
-  const { flipCard } = useMemoryCardsStore();
+  const { cardClicked } = useMemoryCardsStore();
 
   const startTimer = useGameTimerStore(useShallow(startTimerSelector));
 
   const getOnCardClick = (i: number) => () => {
     startTimer();
-    flipCard(i);
+    cardClicked(i);
     incrementFlips();
   };
 
