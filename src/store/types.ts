@@ -11,8 +11,9 @@ export interface MemoryGameState {
 }
 
 export interface MemoryGameStore extends MemoryGameState {
-  incrementScore: () => void;
+  incrementScore: (amount: number) => void;
   incrementFlips: () => void;
+  handleFlip: (i: number) => void;
   resetGame: () => void;
 }
 
@@ -27,7 +28,7 @@ export interface MemoryCardsStore extends MemoryCardsState {
   resetCards: () => void;
   flipCard: (i: number) => void;
   disableCard: (i: number) => void;
-  cardClicked: (i: number) => void;
+  getFlippedCards: () => (Card & { index: number })[];
 }
 
 export interface GameTimerState {

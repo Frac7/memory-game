@@ -25,29 +25,6 @@ const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
       set((state: MemoryCardsState) => ({
         cards: state.cards.concat(state.cards),
       })),
-    cardClicked: (i: number) => {
-      const { cards, flipCard, disableCard } = get();
-      const otherFlippedIndex = cards.findIndex(
-        (card) => !card.disabled && card.flipped
-      );
-      flipCard(i);
-
-      if (otherFlippedIndex === -1 || otherFlippedIndex === i) {
-        return;
-      }
-
-      if (cards[i].id === cards[otherFlippedIndex].id) {
-        setTimeout(() => {
-          disableCard(i);
-          disableCard(otherFlippedIndex);
-        }, 1500);
-      } else {
-        setTimeout(() => {
-          flipCard(i);
-          flipCard(otherFlippedIndex);
-        }, 1500);
-      }
-    },
     flipCard: (i: number) => {
       set((state: MemoryCardsState) => ({
         cards: state.cards.map((card, j) =>
@@ -61,6 +38,11 @@ const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
           i === j ? { ...card, disabled: true } : card
         ),
       }));
+    },
+    getFlippedCards: () => {
+      return get()
+        .cards.map((card, i) => ({ ...card, index: i }))
+        .filter((card) => !card.disabled && card.flipped);
     },
     resetCards: () => set(initialState),
   })

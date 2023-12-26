@@ -9,15 +9,19 @@ import {
 import { useShallow } from "zustand/react/shallow";
 
 import Card from "@/components/Card";
+import useMemoryGameStore, {
+  gameControllerSelector,
+} from "@/store/useMemoryGameStore";
 import useMemoryCardsStore, {
   cardsSelector,
 } from "@/store/useMemoryCardsStore";
 
 import Timer from "../Timer";
-import useGameController from "./useGameController";
 
 const Board = () => {
-  const { score, flips, getOnCardClick } = useGameController();
+  const { score, flips, handleFlip } = useMemoryGameStore(
+    useShallow(gameControllerSelector)
+  );
   const cards = useMemoryCardsStore(useShallow(cardsSelector));
 
   return (
@@ -36,7 +40,7 @@ const Board = () => {
           templateRows="repeat(2, 1fr)"
         >
           {cards.map((card, i) => (
-            <Card key={i} onClick={getOnCardClick(i)} {...card} />
+            <Card key={i} onClick={() => handleFlip(i)} {...card} />
           ))}
         </SimpleGrid>
       </CardBody>
