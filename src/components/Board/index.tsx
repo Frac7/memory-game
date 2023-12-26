@@ -1,9 +1,32 @@
-import { Card as ChakraCard, CardBody, SimpleGrid } from "@chakra-ui/react";
+import {
+  Card as ChakraCard,
+  CardBody,
+  SimpleGrid,
+  CardHeader,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
+import { useShallow } from "zustand/react/shallow";
+
 import Card from "@/components/Card";
+import useMemoryGameStore, {
+  gameControllerSelector,
+} from "@/store/useMemoryGameStore";
 
 const Board = () => {
+  const { score, timer, flips } = useMemoryGameStore(
+    useShallow(gameControllerSelector)
+  );
+
   return (
     <ChakraCard variant="filled">
+      <CardHeader>
+        <Flex justifyContent="space-around">
+          <Text>Score: {score}</Text>
+          <Text>Flips: {flips}</Text>
+          <Text>Timer: {timer}</Text>
+        </Flex>
+      </CardHeader>
       <CardBody>
         <SimpleGrid
           spacing={4}

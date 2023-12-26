@@ -1,9 +1,9 @@
-import { Card as ChakraCard, CardBody } from "@chakra-ui/react";
 import { FC } from "react";
+import { CardBody, Card as ChakraCard } from "@chakra-ui/react";
 
-interface CardProps {
-  content: string;
-}
+import { Card as CardInterface } from "@/store/types";
+
+interface CardProps extends CardInterface {}
 
 const Card: FC<CardProps> = ({ content }) => {
   return (
