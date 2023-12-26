@@ -20,7 +20,9 @@ const useMemoryGameStore: UseBoundStore<StoreApi<MemoryGameStore>> = create(
 
 export default useMemoryGameStore;
 
-export const gameControllerSelector = (state: MemoryGameState) => ({
+export const gameControllerSelector = (state: MemoryGameStore) => ({
   score: state.score,
   flips: state.flips,
+  incrementScore: state.incrementScore,
+  incrementFlips: state.incrementFlips,
 });

@@ -9,8 +9,14 @@ interface CardProps extends CardInterface {
 
 const Card: FC<CardProps> = ({ id, content, onClick }) => {
   return (
-    <ChakraCard style={{ maxWidth: "150px" }}>
-      <CardBody>
+    <ChakraCard
+      style={{
+        maxWidth: "150px",
+        alignItems: "center",
+        backgroundColor: "rgba(255,255,255,0.25)",
+      }}
+    >
+      <CardBody style={{ display: "flex" }}>
         <img
           style={{ cursor: "pointer" }}
           onClick={onClick}

@@ -5,9 +5,7 @@ import {
   CardHeader,
   Flex,
   Text,
-  Button,
 } from "@chakra-ui/react";
-import { RepeatIcon } from "@chakra-ui/icons";
 import { useShallow } from "zustand/react/shallow";
 
 import Card from "@/components/Card";
@@ -17,15 +15,17 @@ import useMemoryGameStore, {
 import useMemoryCardsStore, {
   cardsSelector,
 } from "@/store/useMemoryCardsStore";
-import useGameTimer from "@/hooks/useGameTimer";
+import Timer from "../Timer";
+import useGameTimerStore, {
+  startTimerSelector,
+} from "@/store/useGameTimerStore";
 
 const Board = () => {
-  const { score, flips } = useMemoryGameStore(
+  const { score, flips, incrementScore, incrementFlips } = useMemoryGameStore(
     useShallow(gameControllerSelector)
   );
   const cards = useMemoryCardsStore(useShallow(cardsSelector));
-
-  const { timer, startTimer, stopTimer } = useGameTimer();
+  const startTimer = useGameTimerStore(useShallow(startTimerSelector));
 
   return (
     <ChakraCard variant="filled">
@@ -33,10 +33,7 @@ const Board = () => {
         <Flex justifyContent="space-around">
           <Text>Score: {score}</Text>
           <Text>Flips: {flips}</Text>
-          <Text>Timer: {timer}</Text>
-          <Button onClick={stopTimer} rightIcon={<RepeatIcon />}>
-            Restart
-          </Button>
+          <Timer />
         </Flex>
       </CardHeader>
       <CardBody>

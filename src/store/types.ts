@@ -24,3 +24,15 @@ export interface MemoryCardsStore extends MemoryCardsState {
   duplicateCards: () => void;
   resetCards: () => void;
 }
+
+export interface GameTimerState {
+  timer: number;
+  isActive: boolean;
+  interval?: number;
+}
+
+export interface GameTimerStore extends GameTimerState {
+  startTimer: () => void;
+  stopTimer: () => void;
+  resetTimer: () => void;
+}
