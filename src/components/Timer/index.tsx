@@ -1,10 +1,10 @@
 import { Text, Button } from "@chakra-ui/react";
 
-import useGameTimerStore, { timerSelector } from "@/store/useGameTimerStore";
+import useTimerStore, { timerSelector } from "@/store/useTimerStore";
 import { useShallow } from "zustand/react/shallow";
 
 const Timer = () => {
-  const { isActive, timer, stopTimer, startTimer } = useGameTimerStore(
+  const { isActive, timer, stopTimer, startTimer } = useTimerStore(
     useShallow(timerSelector)
   );
   return (

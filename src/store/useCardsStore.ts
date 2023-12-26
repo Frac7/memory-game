@@ -1,14 +1,14 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
 
-import { MemoryCardsState, MemoryCardsStore } from "@/store/types";
+import { CardsState, CardsStore } from "@/store/types";
 import "@/utils/shuffle";
 import { getCards } from "@/api/cards";
 
-const initialState: MemoryCardsState = {
+const initialState: CardsState = {
   cards: [],
 };
 
-const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
+const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
   (set, get) => ({
     ...initialState,
     getCards: async () => {
@@ -18,28 +18,28 @@ const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
       }));
     },
     shuffleCards: () =>
-      set((state: MemoryCardsState) => ({
+      set((state: CardsState) => ({
         cards: state.cards.shuffle(),
       })),
     duplicateCards: () =>
-      set((state: MemoryCardsState) => ({
+      set((state: CardsState) => ({
         cards: state.cards.concat(state.cards),
       })),
     flipCard: (i: number) => {
-      set((state: MemoryCardsState) => ({
+      set((state: CardsState) => ({
         cards: state.cards.map((card, j) =>
           i === j ? { ...card, flipped: !card.flipped } : card
         ),
       }));
     },
     disableCard: (i: number) => {
-      set((state: MemoryCardsState) => ({
+      set((state: CardsState) => ({
         cards: state.cards.map((card, j) =>
           i === j ? { ...card, disabled: true } : card
         ),
       }));
     },
-    getFlippedCards: () => {
+    getFlippedCardsWithIndex: () => {
       return get()
         .cards.map((card, i) => ({ ...card, index: i }))
         .filter((card) => !card.disabled && card.flipped);
@@ -48,6 +48,6 @@ const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
   })
 );
 
-export default useMemoryCardsStore;
+export default useCardsStore;
 
-export const cardsSelector = (state: MemoryCardsState) => state.cards;
+export const cardsSelector = (state: CardsState) => state.cards;

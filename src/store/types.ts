@@ -5,39 +5,39 @@ export interface Card {
   disabled?: boolean;
 }
 
-export interface MemoryGameState {
+export interface GameState {
   score: number;
   flips: number;
 }
 
-export interface MemoryGameStore extends MemoryGameState {
+export interface GameStore extends GameState {
   incrementScore: (amount: number) => void;
   incrementFlips: () => void;
   handleFlip: (i: number) => void;
   resetGame: () => void;
 }
 
-export interface MemoryCardsState {
+export interface CardsState {
   cards: Array<Card>;
 }
 
-export interface MemoryCardsStore extends MemoryCardsState {
+export interface CardsStore extends CardsState {
   getCards: () => Promise<void>;
   shuffleCards: () => void;
   duplicateCards: () => void;
   resetCards: () => void;
   flipCard: (i: number) => void;
   disableCard: (i: number) => void;
-  getFlippedCards: () => (Card & { index: number })[];
+  getFlippedCardsWithIndex: () => (Card & { index: number })[];
 }
 
-export interface GameTimerState {
+export interface TimerState {
   timer: number;
   isActive: boolean;
   interval?: number;
 }
 
-export interface GameTimerStore extends GameTimerState {
+export interface TimerStore extends TimerState {
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;

@@ -1,34 +1,34 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
 
-import { MemoryGameState, MemoryGameStore } from "@/store/types";
-import useMemoryCardsStore from "./useMemoryCardsStore";
+import { GameState, GameStore } from "@/store/types";
+import useCardsStore from "./useCardsStore";
 import { DECREASE_SCORE_AMOUNT, INCREASE_SCORE_AMOUNT } from "./constants";
-import useGameTimerStore, { startTimerSelector } from "./useGameTimerStore";
+import useTimerStore, { startTimerSelector } from "./useTimerStore";
 
-const initialState: MemoryGameState = {
+const initialState: GameState = {
   score: 0,
   flips: 0,
 };
 
-const useMemoryGameStore: UseBoundStore<StoreApi<MemoryGameStore>> = create(
+const useGameStore: UseBoundStore<StoreApi<GameStore>> = create(
   (set, get) => ({
     ...initialState,
     incrementScore: (amount: number) =>
-      set((state: MemoryGameState) => ({ score: state.score + amount })),
+      set((state: GameState) => ({ score: state.score + amount })),
     incrementFlips: () =>
-      set((state: MemoryGameState) => ({ flips: state.flips + 1 })),
+      set((state: GameState) => ({ flips: state.flips + 1 })),
     handleFlip: (i: number) => {
-      const startTimer = startTimerSelector(useGameTimerStore.getState());
+      const startTimer = startTimerSelector(useTimerStore.getState());
       startTimer();
 
-      const { getFlippedCards, flipCard, disableCard } =
-        useMemoryCardsStore.getState();
+      const { getFlippedCardsWithIndex, flipCard, disableCard } =
+        useCardsStore.getState();
       flipCard(i);
 
       const { incrementScore, incrementFlips } = get();
       incrementFlips();
 
-      const flippedCards = getFlippedCards();
+      const flippedCards = getFlippedCardsWithIndex();
       if (flippedCards.length !== 2) {
         return;
       }
@@ -52,9 +52,9 @@ const useMemoryGameStore: UseBoundStore<StoreApi<MemoryGameStore>> = create(
   })
 );
 
-export default useMemoryGameStore;
+export default useGameStore;
 
-export const gameControllerSelector = (state: MemoryGameStore) => ({
+export const gameControllerSelector = (state: GameStore) => ({
   score: state.score,
   flips: state.flips,
   handleFlip: state.handleFlip,

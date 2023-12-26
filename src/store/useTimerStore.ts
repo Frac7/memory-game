@@ -1,14 +1,14 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
 
-import { GameTimerState, GameTimerStore } from "@/store/types";
+import { TimerState, TimerStore } from "@/store/types";
 import "@/utils/shuffle";
 
-const initialState: GameTimerState = {
+const initialState: TimerState = {
   timer: 0,
   isActive: false,
 };
 
-const useGameTimerStore: UseBoundStore<StoreApi<GameTimerStore>> = create(
+const useTimerStore: UseBoundStore<StoreApi<TimerStore>> = create(
   (set, get) => ({
     ...initialState,
     startTimer: () => {
@@ -37,10 +37,10 @@ const useGameTimerStore: UseBoundStore<StoreApi<GameTimerStore>> = create(
   })
 );
 
-export default useGameTimerStore;
+export default useTimerStore;
 
-export const startTimerSelector = (state: GameTimerStore) => state.startTimer;
-export const timerSelector = (state: GameTimerStore) => ({
+export const startTimerSelector = (state: TimerStore) => state.startTimer;
+export const timerSelector = (state: TimerStore) => ({
   timer: state.timer,
   stopTimer: state.stopTimer,
   resetTimer: state.resetTimer,

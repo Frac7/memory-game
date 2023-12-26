@@ -9,20 +9,20 @@ import {
 import { useShallow } from "zustand/react/shallow";
 
 import Card from "@/components/Card";
-import useMemoryGameStore, {
+import useGameStore, {
   gameControllerSelector,
-} from "@/store/useMemoryGameStore";
-import useMemoryCardsStore, {
+} from "@/store/useGameStore";
+import useCardsStore, {
   cardsSelector,
-} from "@/store/useMemoryCardsStore";
+} from "@/store/useCardsStore";
 
 import Timer from "../Timer";
 
 const Board = () => {
-  const { score, flips, handleFlip } = useMemoryGameStore(
+  const { score, flips, handleFlip } = useGameStore(
     useShallow(gameControllerSelector)
   );
-  const cards = useMemoryCardsStore(useShallow(cardsSelector));
+  const cards = useCardsStore(useShallow(cardsSelector));
 
   return (
     <ChakraCard variant="filled">

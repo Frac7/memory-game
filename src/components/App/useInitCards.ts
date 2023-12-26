@@ -1,9 +1,9 @@
-import useMemoryCardsStore from "@/store/useMemoryCardsStore";
+import useCardsStore from "@/store/useCardsStore";
 import { useEffect } from "react";
 
 export default function useInitCards() {
   const { getCards, duplicateCards, shuffleCards, resetCards } =
-    useMemoryCardsStore((state) => ({
+    useCardsStore((state) => ({
       getCards: state.getCards,
       duplicateCards: state.duplicateCards,
       shuffleCards: state.shuffleCards,
