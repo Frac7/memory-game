@@ -6,12 +6,10 @@ export interface Card {
 export interface MemoryGameState {
   score: number;
   flips: number;
-  timer: number;
 }
 
 export interface MemoryGameStore extends MemoryGameState {
   incrementScore: () => void;
-  incrementTimer: () => void;
   incrementFlips: () => void;
   resetGame: () => void;
 }
@@ -21,7 +19,8 @@ export interface MemoryCardsState {
 }
 
 export interface MemoryCardsStore extends MemoryCardsState {
-  getCards: () => void;
+  getCards: () => Promise<void>;
   shuffleCards: () => void;
   duplicateCards: () => void;
+  resetCards: () => void;
 }

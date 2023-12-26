@@ -3,12 +3,21 @@ import { CardBody, Card as ChakraCard } from "@chakra-ui/react";
 
 import { Card as CardInterface } from "@/store/types";
 
-interface CardProps extends CardInterface {}
+interface CardProps extends CardInterface {
+  onClick: () => void;
+}
 
-const Card: FC<CardProps> = ({ content }) => {
+const Card: FC<CardProps> = ({ id, content, onClick }) => {
   return (
-    <ChakraCard>
-      <CardBody>{content}</CardBody>
+    <ChakraCard style={{ maxWidth: "150px" }}>
+      <CardBody>
+        <img
+          style={{ cursor: "pointer" }}
+          onClick={onClick}
+          alt={id.toString()}
+          src={content}
+        />
+      </CardBody>
     </ChakraCard>
   );
 };

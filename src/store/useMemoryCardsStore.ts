@@ -2,6 +2,7 @@ import { StoreApi, UseBoundStore, create } from "zustand";
 
 import { MemoryCardsState, MemoryCardsStore } from "@/store/types";
 import "@/utils/shuffle";
+import { getCards } from "@/api/cards";
 
 const initialState: MemoryCardsState = {
   cards: [],
@@ -10,15 +11,12 @@ const initialState: MemoryCardsState = {
 const useMemoryCardsStore: UseBoundStore<StoreApi<MemoryCardsStore>> = create(
   (set) => ({
     ...initialState,
-    getCards: () =>
+    getCards: async () => {
+      const cards = await getCards();
       set(() => ({
-        cards: Array(5)
-          .fill(0)
-          .map((_, i) => ({
-            id: i,
-            content: (Math.random() * 100).toFixed(0),
-          })),
-      })),
+        cards,
+      }));
+    },
     shuffleCards: () =>
       set((state: MemoryCardsState) => ({
         cards: state.cards.shuffle(),
