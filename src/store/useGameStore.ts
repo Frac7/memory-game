@@ -77,4 +77,4 @@ export const gameControllerSelector = (state: GameStore) => ({
   incrementFlips: state.incrementFlips,
   restartGame: state.restartGame,
 });
-export const isCompletedSelector = (state: GameState) => state.completed;
+export const isCompletedSelector = (state: GameStore) => state.completed;

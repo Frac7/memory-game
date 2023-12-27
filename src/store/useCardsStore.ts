@@ -25,13 +25,11 @@ const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
       set((state: CardsState) => ({
         cards: state.cards.concat(state.cards),
       })),
-    initCards: () => {
-      get()
-        .getCards()
-        .then(() => {
-          get().duplicateCards();
-          get().shuffleCards();
-        });
+    initCards: async () => {
+      const { getCards, duplicateCards, shuffleCards } = get();
+      await getCards();
+      duplicateCards();
+      shuffleCards();
     },
     flipCard: (i: number) => {
       set((state: CardsState) => ({
@@ -64,4 +62,5 @@ const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
 
 export default useCardsStore;
 
-export const cardsSelector = (state: CardsState) => state.cards;
+export const cardsSelector = (state: CardsStore) => state.cards;
+export const initCardsSelector = (state: CardsStore) => state.initCards;

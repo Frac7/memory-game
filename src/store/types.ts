@@ -25,8 +25,8 @@ export interface CardsState {
 }
 
 export interface CardsStore extends CardsState {
-  getCards: () => Promise<void>;
   initCards: () => Promise<void>;
+  getCards: () => Promise<void>;
   shuffleCards: () => void;
   duplicateCards: () => void;
   resetCards: () => void;
