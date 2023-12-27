@@ -1,0 +1,19 @@
+.card {
+  transform: rotateY(180deg);
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: transform 1s;
+}
+
+.card:hover {
+  opacity: 0.5;
+}
+
+.card--flipped {
+  transform: rotateY(360deg);
+}
+
+.card__inner {
+  transform: rotateY(180deg);
+  transition: all 2s;
+}
