@@ -12,7 +12,6 @@ import { useShallow } from "zustand/react/shallow";
 import Card from "@/components/Card";
 import useGameStore, { gameControllerSelector } from "@/store/useGameStore";
 import useCardsStore, { cardsSelector } from "@/store/useCardsStore";
-
 import Timer from "../Timer";
 
 const Board = () => {

@@ -11,7 +11,9 @@ export interface GameState {
   completed: boolean;
 }
 
-export interface GameStore extends GameState {
+export type GameStore = GameState & GameActions;
+
+export interface GameActions {
   incrementScore: (amount: number) => void;
   incrementFlips: () => void;
   handleFlip: (i: number) => void;
@@ -24,16 +26,16 @@ export interface CardsState {
   cards: Array<Card>;
 }
 
-export interface CardsStore extends CardsState {
+export type CardsStore = CardsState & CardsActions;
+
+export interface CardsActions {
   initCards: () => Promise<void>;
-  getCards: () => Promise<void>;
+  fetchCards: () => Promise<void>;
   shuffleCards: () => void;
   duplicateCards: () => void;
   resetCards: () => void;
-  flipCard: (i: number) => void;
-  disableCard: (i: number) => void;
-  getFlippedCardsWithIndex: () => (Card & { index: number })[];
-  getEnabledCards: () => Card[];
+  flipCardByIndex: (i: number) => void;
+  disableCardByIndex: (i: number) => void;
 }
 
 export interface TimerState {
@@ -42,7 +44,9 @@ export interface TimerState {
   interval?: number;
 }
 
-export interface TimerStore extends TimerState {
+export type TimerStore = TimerState & TimerActions;
+
+export interface TimerActions {
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;

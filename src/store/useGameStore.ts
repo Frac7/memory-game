@@ -1,7 +1,10 @@
 import { StoreApi, UseBoundStore, create } from "zustand";
 
 import { GameState, GameStore } from "@/store/types";
-import useCardsStore from "./useCardsStore";
+import useCardsStore, {
+  enabledCardsSelector,
+  flippedCardsWithIndexSelector,
+} from "./useCardsStore";
 import { DECREASE_SCORE_AMOUNT, INCREASE_SCORE_AMOUNT } from "./constants";
 import useTimerStore from "./useTimerStore";
 
@@ -26,33 +29,33 @@ const useGameStore: UseBoundStore<StoreApi<GameStore>> = create((set, get) => ({
     const { startTimer, stopTimer } = useTimerStore.getState();
     startTimer();
 
-    const { getFlippedCardsWithIndex, flipCard, disableCard, getEnabledCards } =
-      useCardsStore.getState();
-    flipCard(i);
+    const cardsStore = useCardsStore.getState();
+    const { flipCardByIndex, disableCardByIndex } = cardsStore;
+    flipCardByIndex(i);
 
     const { incrementScore, incrementFlips, completeGame } = get();
     incrementFlips();
 
-    const flippedCards = getFlippedCardsWithIndex();
+    const flippedCards = flippedCardsWithIndexSelector(useCardsStore.getState()); // Fresh value needed after the flip
     if (flippedCards.length !== 2) {
       return;
     }
 
     if (flippedCards[0].id !== flippedCards[1].id) {
       setTimeout(() => {
-        flipCard(flippedCards[0].index);
-        flipCard(flippedCards[1].index);
+        flipCardByIndex(flippedCards[0].index);
+        flipCardByIndex(flippedCards[1].index);
         incrementScore(DECREASE_SCORE_AMOUNT);
       }, 1000);
       return;
     }
 
     setTimeout(() => {
-      disableCard(flippedCards[0].index);
-      disableCard(flippedCards[1].index);
+      disableCardByIndex(flippedCards[0].index);
+      disableCardByIndex(flippedCards[1].index);
       incrementScore(INCREASE_SCORE_AMOUNT);
 
-      const enabledCards = getEnabledCards();
+      const enabledCards = enabledCardsSelector(useCardsStore.getState()); // Fresh value needed after the disable
       if (enabledCards.length === 0) {
         stopTimer();
         completeGame();

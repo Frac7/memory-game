@@ -2,9 +2,10 @@ import { StoreApi, UseBoundStore, create } from "zustand";
 
 import { TimerState, TimerStore } from "@/store/types";
 import "@/utils/shuffle";
+import { INITIAL_TIMER } from "./constants";
 
 const initialState: TimerState = {
-  timer: 60,
+  timer: INITIAL_TIMER,
   isActive: false,
 };
 
@@ -14,14 +15,16 @@ const useTimerStore: UseBoundStore<StoreApi<TimerStore>> = create(
     startTimer: () => {
       const isActive = get().isActive;
       if (!isActive) {
+        const interval = setInterval(() => {
+          const timer = get().timer;
+          if (timer > 0) {
+            set({ timer: timer - 1 });
+          }
+        }, 1000);
+
         set({
           isActive: true,
-          interval: setInterval(() => {
-            const timer = get().timer;
-            if (timer > 0) {
-              set({ timer: timer - 1 });
-            }
-          }, 1000),
+          interval,
         });
       }
     },
@@ -45,7 +48,6 @@ export default useTimerStore;
 export const timerSelector = (state: TimerStore) => ({
   timer: state.timer,
   stopTimer: state.stopTimer,
-  resetTimer: state.resetTimer,
   startTimer: state.startTimer,
   isActive: state.isActive,
 });

@@ -1,3 +1,4 @@
+import { INITIAL_TIMER } from "@/store/constants";
 import useGameStore, { gameControllerSelector } from "@/store/useGameStore";
 import useTimerStore, { timerSelector } from "@/store/useTimerStore";
 import {
@@ -24,6 +25,7 @@ const Modal: FC<ModalProps> = ({ isOpen }) => {
   const { restartGame } = useGameStore();
 
   return (
+    // @ts-expect-error Better open/close handling needed
     <ChakraModal isOpen={isOpen}>
       <ModalOverlay />
       <ModalContent>
@@ -32,7 +34,7 @@ const Modal: FC<ModalProps> = ({ isOpen }) => {
         <Flex justifyContent="space-around">
           <Text>Score: {score}</Text>
           <Text>Flips: {flips}</Text>
-          <Text>Time: {60 - timer}</Text>
+          <Text>Time: {INITIAL_TIMER - timer}</Text>
         </Flex>
         <ModalFooter>
           <Button onClick={restartGame}>Restart</Button>

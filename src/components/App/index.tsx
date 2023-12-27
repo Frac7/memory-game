@@ -8,11 +8,11 @@ import { useShallow } from "zustand/react/shallow";
 
 function App() {
   useInitCards();
-  const isOpen = useGameStore(useShallow(isCompletedSelector));
+  const isCompleted = useGameStore(useShallow(isCompletedSelector));
 
   return (
     <>
-      <Modal isOpen={isOpen} />
+      <Modal isOpen={isCompleted} />
       <Flex
         flexDirection="column"
         alignItems="center"

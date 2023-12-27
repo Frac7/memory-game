@@ -11,7 +11,13 @@ const initialState: CardsState = {
 const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
   (set, get) => ({
     ...initialState,
-    getCards: async () => {
+    initCards: async () => {
+      const { fetchCards, duplicateCards, shuffleCards } = get();
+      await fetchCards();
+      duplicateCards();
+      shuffleCards();
+    },
+    fetchCards: async () => {
       const cards = await getCards();
       set(() => ({
         cards,
@@ -25,33 +31,19 @@ const useCardsStore: UseBoundStore<StoreApi<CardsStore>> = create(
       set((state: CardsState) => ({
         cards: state.cards.concat(state.cards),
       })),
-    initCards: async () => {
-      const { getCards, duplicateCards, shuffleCards } = get();
-      await getCards();
-      duplicateCards();
-      shuffleCards();
-    },
-    flipCard: (i: number) => {
+    flipCardByIndex: (i: number) => {
       set((state: CardsState) => ({
         cards: state.cards.map((card, j) =>
           i === j ? { ...card, flipped: !card.flipped } : card
         ),
       }));
     },
-    disableCard: (i: number) => {
+    disableCardByIndex: (i: number) => {
       set((state: CardsState) => ({
         cards: state.cards.map((card, j) =>
           i === j ? { ...card, disabled: true } : card
         ),
       }));
-    },
-    getFlippedCardsWithIndex: () => {
-      return get()
-        .cards.map((card, i) => ({ ...card, index: i }))
-        .filter((card) => !card.disabled && card.flipped);
-    },
-    getEnabledCards: () => {
-      return get().cards.filter((card) => !card.disabled);
     },
     resetCards: () => {
       set(initialState);
@@ -64,3 +56,11 @@ export default useCardsStore;
 
 export const cardsSelector = (state: CardsStore) => state.cards;
 export const initCardsSelector = (state: CardsStore) => state.initCards;
+export const flippedCardsWithIndexSelector = (state: CardsStore) => {
+  return state.cards
+    .map((card, i) => ({ ...card, index: i }))
+    .filter((card) => !card.disabled && card.flipped);
+};
+export const enabledCardsSelector = (state: CardsStore) => {
+  return state.cards.filter((card) => !card.disabled);
+};
